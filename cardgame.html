@@ -1,0 +1,74 @@
+
+    <section class="button" id="sortButton">Sort</section>
+  <section class = "button"id ="shuffleButton">Shuffle</section>
+
+  <ul id="deck">
+  </ul>
+
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+  <script type="text/javascript">
+    function Card(r, s) {
+      this.rank = r;
+      this.suit = s;
+      this.toHTML = function() {
+        return "<li class='card'>" + this.rank + "-" + this.suit + "</li>";
+      }
+    }
+    function Deck() {
+      var thisDeck = this;
+      this.suits = ['H', 'C', 'D', 'S'];
+      this.ranks = ['A', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K'];
+      $.each(thisDeck.suits, function() {
+        var suit = this;
+        $.each(thisDeck.ranks, function() {
+          var rank = this;
+          var card = new Card(rank, suit);
+          $('#deck').append(card.toHTML());
+        });
+      });
+    }
+    var shuffle = function(m) {
+      var rand, $rand;
+      rand = Math.floor(Math.random() * m--);
+      $('li:eq(' + m + ')').
+        after($('li:eq(' + rand + ')')).
+        insertBefore($('li:eq(' + rand + ')'))
+      if(m) {
+        setTimeout(shuffle, 100, m);
+      }
+    };
+
+     var mergSort = function(m){
+      parseFloat(m);
+      var size = m;
+      if(size <= 1){
+        return m;
+      }else{
+        var mid = size/2;
+        var firstHalf = [mid];
+        var secondHalf= [size-mid];
+        for(var i = 0; i < mid; i++){
+          firstHalf[i] = num[i];
+        }
+        for(var i = mid; i< size; i++){
+          secondHalf[i-mid]= num[i];
+        }
+        return merg(mergSort(firstHalf),merg(secondHalf));
+      }
+
+    }
+    var merg = function(first,second){
+      var res = $('li:eq('+ first +')').after($('li:eq('+ second +')'));
+      return res;
+
+    }
+    var deck = new Deck();
+    $('#sortButton').click(function(){
+    //console.log(parseFloat($('.cards')));
+     console.log(mergSort($('.cards').length));
+    })
+    $('#shuffleButton').click(function(){
+      shuffle($('.cards').length);
+    })
+
+  </script>
